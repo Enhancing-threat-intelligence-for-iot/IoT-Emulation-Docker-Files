@@ -1,0 +1,24 @@
+# Dockerfile
+FROM contiker/contiki-ng:latest
+
+# Install optional tools (like net-tools, ping, etc.)
+RUN apt-get update && apt-get install -y \
+    iputils-ping \
+    net-tools \
+    tcpdump \
+    nmap \
+    python3 \
+    nano
+
+# Expose common IoT/network ports
+EXPOSE 80     # HTTP
+EXPOSE 443    # HTTPS
+EXPOSE 5683   # CoAP (UDP)
+EXPOSE 1883   # MQTT
+EXPOSE 22     # SSH (if needed)
+EXPOSE 123    # NTP
+EXPOSE 7      # Echo (ICMP replacement if running)
+EXPOSE 6-65535/udp  # Optional: expose all UDP ports if testing CoAP/UDP scan logic
+
+# Default command
+CMD ["/bin/bash"]

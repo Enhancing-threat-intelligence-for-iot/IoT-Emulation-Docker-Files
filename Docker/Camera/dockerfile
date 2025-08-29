@@ -1,0 +1,13 @@
+FROM --platform=linux/amd64 contiker/contiki-ng:latest
+USER root
+
+# install lightweight HTTP server, add a "vulnerable" admin page
+RUN apt-get update \
+ && apt-get install -y lighttpd python3 \
+ && mkdir -p /www/admin \
+ && echo "admin:admin" > /www/admin/creds.txt \
+ && echo '<html><body><h1>Camera Live Feed</h1></body></html>' \
+      > /www/index.html
+
+EXPOSE 80/tcp
+CMD ["bash","-c","lighttpd -f -m /etc/lighttpd/lighttpd.conf -D"]

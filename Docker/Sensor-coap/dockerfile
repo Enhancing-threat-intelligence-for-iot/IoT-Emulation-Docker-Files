@@ -1,0 +1,10 @@
+FROM --platform=linux/amd64 contiker/contiki-ng:latest
+USER root
+
+RUN apt-get update && apt-get install -y libcoap2-bin \
+  # CoAP client/server tools
+ && mkdir -p /data
+
+# Launch the Contiki-NG CoAP example
+CMD ["bash","-lc","cd examples/coap && make TARGET=native coap-server && ./coap-server"]
+EXPOSE 5683/udp

@@ -1,0 +1,5 @@
+FROM alpine:edge
+RUN apk add --no-cache gst-plugins-good gst-plugins-base \
+    gstreamer gst-rtsp-server
+EXPOSE 554/tcp
+CMD ["test-launch","( videotestsrc ! x264enc ! rtph264pay name=pay0 pt=96 )"]

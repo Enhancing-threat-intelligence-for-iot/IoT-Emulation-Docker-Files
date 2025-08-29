@@ -1,0 +1,19 @@
+FROM ubuntu:22.04
+
+# Prevent interactive prompts during package installation
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y \
+    snmp \
+    snmp-mibs-downloader \
+    snmpd \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create basic SNMP configuration
+RUN echo "rocommunity public localhost" > /etc/snmp/snmpd.conf \
+    && echo "syslocation Docker Container" >> /etc/snmp/snmpd.conf \
+    && echo "syscontact admin@example.com" >> /etc/snmp/snmpd.conf
+
+EXPOSE 161/udp
+
+CMD ["snmpd", "-f", "-Lo", "-c", "/etc/snmp/snmpd.conf"]

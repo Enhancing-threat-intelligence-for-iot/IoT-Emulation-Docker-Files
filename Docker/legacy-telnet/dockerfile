@@ -1,0 +1,9 @@
+FROM ubuntu:22.04
+USER root
+
+RUN apt-get update \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y telnetd \
+ && echo "root:toor" | chpasswd
+
+EXPOSE 23/tcp
+CMD ["/usr/sbin/inetd","-f","/etc/inetd.conf","-d"]

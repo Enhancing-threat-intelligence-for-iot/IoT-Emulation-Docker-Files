@@ -1,0 +1,6 @@
+FROM node:18-alpine
+WORKDIR /app
+RUN npm install ws
+COPY ws-server.js .
+EXPOSE 8080/tcp
+CMD ["node","ws-server.js"]
